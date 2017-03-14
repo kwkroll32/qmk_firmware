@@ -28,6 +28,34 @@ SOFTWARE.
 #define CROSSFADE_TIME 1000
 #define GRADIENT_TIME 3000
 
+keyframe_animation_t led_on_animation = {
+    .num_frames = 2,
+    .loop = false,
+    .frame_lengths = {
+        gfxMillisecondsToTicks(3000), // fade in
+        gfxMillisecondsToTicks(5000), // no op (leds on)
+    },
+    .frame_functions = {
+        keyframe_fade_in_all_leds,
+        keyframe_no_operation,
+    },
+};
+
+keyframe_animation_t led_breath_animation = {
+    .num_frames = 3,
+    .loop = true,
+    .frame_lengths = {
+        gfxMillisecondsToTicks(3000), // fade in
+        gfxMillisecondsToTicks(50000), // no op (leds on)
+        gfxMillisecondsToTicks(3000), // fade out
+    },
+    .frame_functions = {
+        keyframe_fade_in_all_leds,
+        keyframe_no_operation,
+        keyframe_fade_out_all_leds,
+    },
+};
+
 keyframe_animation_t led_test_animation = {
     .num_frames = 14,
     .loop = true,

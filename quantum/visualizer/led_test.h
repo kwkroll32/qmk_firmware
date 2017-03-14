@@ -36,6 +36,8 @@ bool keyframe_mirror_led_orientation(keyframe_animation_t* animation, visualizer
 bool keyframe_normal_led_orientation(keyframe_animation_t* animation, visualizer_state_t* state);
 
 extern keyframe_animation_t led_test_animation;
+extern keyframe_animation_t led_on_animation;
+extern keyframe_animation_t led_breath_animation;
 
 
 #endif /* TMK_VISUALIZER_LED_TEST_H_ */
