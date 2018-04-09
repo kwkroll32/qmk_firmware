@@ -1,0 +1,46 @@
+hold tab = fn
+ - vim arrows, delete, etc.
+ - need a home,end,pgup,pgdn keys too
+hold enter = shift or rgui?
+
+
+left space = backspace
+ - anything interesting to be done with backspace?
+need right ctrl, gui, alt
+
+'''
+typedef struct {
+  bool layer_toggle;
+  bool sticky;
+} td_ta_state_t;
+
+static void ang_tap_dance_ta_finished (qk_tap_dance_state_t *state, void *user_data) {
+  td_ta_state_t *td_ta = (td_ta_state_t *) user_data;
+
+  if (td_ta->sticky) {
+    td_ta->sticky = false;
+    td_ta->layer_toggle = false;
+    layer_off (ARRW);
+    return;
+  }
+
+  if (state->count == 1 && !state->pressed) {
+    register_code (KC_TAB);
+    td_ta->sticky = false;
+    td_ta->layer_toggle = false;
+  } else {
+    td_ta->layer_toggle = true;
+    layer_on (ARRW);
+    td_ta->sticky = (state->count == 2);
+  }
+}
+
+static void ang_tap_dance_ta_reset (qk_tap_dance_state_t *state, void *user_data) {
+  td_ta_state_t *td_ta = (td_ta_state_t *) user_data;
+
+  if (!td_ta->layer_toggle)
+    unregister_code (KC_TAB);
+  if (!td_ta->sticky)
+    layer_off (ARRW);
+}
+'''
