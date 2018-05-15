@@ -112,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, KC_DEL },
   {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS,    KC_PLUS,    KC_LCBR, KC_RCBR, KC_PIPE},
   {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END,  _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______,    KC_MNXT,    KC_VOLD, KC_VOLU, KC_MPLY}
+  {_______, _______, _______, _______, _______, _______, _______, _______,    _______,    KC_VOLD, KC_VOLU, KC_MPLY}
 },
 
 /* Raise
@@ -202,6 +202,7 @@ static void ang_tap_dance_nav_finished (qk_tap_dance_state_t *state, void *user_
     td_nav->sticky = false;
     td_nav->layer_toggle = false;
     layer_off (_NAV);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
     return;
   }
   if (state->count == 1 && !state->pressed) {
@@ -211,6 +212,7 @@ static void ang_tap_dance_nav_finished (qk_tap_dance_state_t *state, void *user_
   } else {
     td_nav->layer_toggle = true;
     layer_on (_NAV);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
     td_nav->sticky = (state->count == 2);
   }
 }
@@ -221,6 +223,7 @@ static void ang_tap_dance_nav_reset (qk_tap_dance_state_t *state, void *user_dat
     unregister_code (KC_TAB);
   if (!td_nav->sticky)
     layer_off (_NAV);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
 }
 
 // Tap Dance for Raise layer functionality
@@ -271,17 +274,20 @@ static void ang_tap_dance_lower_finished (qk_tap_dance_state_t *state, void *use
     td_lower->layer_toggle = false;
     layer_off (_LOWER);
     update_tri_layer(_LOWER, _RAISE, _ADJUST);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
     return;
   }
   if (state->count == 1 && !state->pressed) {
     layer_on(_LOWER);
     update_tri_layer(_LOWER, _RAISE, _ADJUST);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
     td_lower->sticky = false;
     td_lower->layer_toggle = false;
   } else {
     td_lower->layer_toggle = true;
     layer_on(_LOWER);
     update_tri_layer(_LOWER, _RAISE, _ADJUST);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
     td_lower->sticky = (state->count == 2);
   }
 }
@@ -291,6 +297,7 @@ static void ang_tap_dance_lower_reset (qk_tap_dance_state_t *state, void *user_d
   if (!td_lower->layer_toggle || !td_lower->sticky)
     layer_off(_LOWER);
     update_tri_layer(_LOWER, _RAISE, _ADJUST);
+    update_tri_layer(_LOWER, _NAV, _QUERY);
 }
 
 // Tap Dance for Query layer functionality
@@ -356,12 +363,17 @@ static void ang_tap_dance_eclipse_reset (qk_tap_dance_state_t *state, void *user
 }
 
 void td_menu_selct (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code(KC_APP);
-    unregister_code(KC_APP);
-  } else {
+  if (state->count == 1 && !state->pressed) {
+    SEND_STRING(SS_TAP(X_APPLICATION));
+    reset_tap_dance(state);
+  } else if (state->count == 2 && !state->pressed) {
     SEND_STRING(SS_TAP(X_HOME)SS_DOWN(X_LSHIFT)SS_TAP(X_END)SS_UP(X_LSHIFT));
     reset_tap_dance(state);
+  } else {
+    // hard reset
+    state->count = 0;
+    state->interrupted = false;
+    state->finished = false;
   }
 };
 
