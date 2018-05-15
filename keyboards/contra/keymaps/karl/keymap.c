@@ -438,8 +438,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
         break;
       case QLIKE:
-        SEND_STRING(" LIKE '' ");
-        SEND_STRING(SS_TAP(X_LEFT)SS_TAP(X_LEFT));
+        SEND_STRING(" LIKE '%%' ");
+        SEND_STRING(SS_TAP(X_LEFT)SS_TAP(X_LEFT)SS_TAP(X_LEFT));
         return false;
         break;
 
