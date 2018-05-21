@@ -5,3 +5,8 @@ EXTRAKEY_ENABLE = no
 CONSOLE_ENABLE = no
 COMMAND_ENABLE = no
 NKRO_ENABLE = yes
+
+
+BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality on B7 by default
+RGBLIGHT_ENABLE = no
+
