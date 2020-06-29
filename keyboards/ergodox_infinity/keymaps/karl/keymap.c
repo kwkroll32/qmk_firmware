@@ -135,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *        |     +-----+-----+-----+-----+-----+-------+
  *        +-----+ Left| Down|  Up |Right|pg up|       |
  *        |     +-----+-----+-----+-----+-----+-------+
- *        |     | GC_L|GC_D |GC_U |GC_D |pg dn|       |
+ *        |     | GC_L|GC_D |GC_U |GC_R |pg dn|       |
  *        +-----+-----+-----+-----+-----+-----+-----+-+
  *                    |     |     |     |     |     |
  *    +-----+-----+   +-----+-----+-----+-----+-----+
@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_F12,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_TRNS,
        KC_TRNS, RGUI(KC_LEFT), RGUI(KC_DOWN),RGUI(KC_UP), RGUI(KC_RGHT), KC_TRNS, KC_TRNS,
                 KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_PGUP, KC_TRNS,
-       KC_TRNS, RCTL(RGUI(KC_LEFT)), RCTL(RGUI(KC_DOWN)), RCTL(RGUI(KC_RGHT)), RCTL(RGUI(KC_UP)), KC_PGDN, KC_TRNS,
+       KC_TRNS, RCTL(RGUI(KC_LEFT)), RCTL(RGUI(KC_DOWN)), RCTL(RGUI(KC_UP)), RCTL(RGUI(KC_RGHT)), KC_PGDN, KC_TRNS,
                          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,
        KC_TRNS, KC_TRNS,
        KC_TRNS,
